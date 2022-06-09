@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Services;
+using System.Text.Json;
 
 
 
@@ -31,16 +32,16 @@ namespace WebApplication1.Controllers
         [HttpPost(Name = "RobotSpotted")]
         public async Task<string> Post(Location location) // create a loaction class
         {
-            _logger.Log(LogLevel.Information, new EventId(),null,"Finding the nearest ocean to" + location.Name,null); 
-            //using the existing logger to record the event ( in this case posting the name)
-             //var x = await _service.GetNearestBodyOfWater(location);
-            if (location.Longitude >= 125) 
-            {
-                return $"The nearest body of water to {location.Name} is {Listx.Listx.locationList.First(x => x.Longitude >= 125).Name}";
+          
+            _logger.Log(LogLevel.Information, new EventId(),null,"Finding the nearest ocean to" + location.Name, null); 
+            //using the existing logger to record the event ( in this case posting the nam
+            string NearestWater = await _service.GetNearestBodyOfWater(location);
+            JsonSerializer.Serialize(NearestWater);
+            CloseWaterLoaction[] ClosestWater = JsonSerializer.Deserialize<CloseWaterLoaction[]>(NearestWater);
+            return $"The nearest body of water to {location.Name} is {ClosestWater[0].display_name}";
 
-            }
-            else return $"The nearest body of water to {location.Name} is {Listx.Listx.locationList.First(x => x.Longitude < 125).Name}";
-            ; // we can reference the name: loaction.Name
+   
         }
+
     }
 }

@@ -14,9 +14,9 @@
 
         public async Task<string> GetNearestBodyOfWater(Location location) // make it async  
         {
-            
 
-            HttpResponseMessage y = await _httpClient.GetAsync("https://nominatim.openstreetmap.org/reverse?format=json&lat=-32&lon=151.2082848");
+            string url = $"https://nominatim.openstreetmap.org/search.php?q=water%20near%20{location.Name}%20Australia&polygon_geojson=1&format=jsonv2";
+           HttpResponseMessage y = await _httpClient.GetAsync(url);
 
             return await y.Content.ReadAsStringAsync();
         }
