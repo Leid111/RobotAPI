@@ -21,13 +21,7 @@ namespace WebApplication1.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "RobotSpotted")]
-        public string Get() // returns a string instead of IEnumerable<WeatherForecast> 
-            // This project will mainly use post because it useres sending and returning data.
-            // I can experiment with siplay previous history of data
-        {
-            return "test";
-        }
+    
 
         [HttpPost(Name = "RobotSpotted")]
         public async Task<string> Post(Location location) // create a loaction class
