@@ -26,15 +26,22 @@ namespace WebApplication1.Controllers
         [HttpPost(Name = "RobotSpotted")]
         public async Task<string> Post(Location location) // create a loaction class
         {
-          
-            _logger.Log(LogLevel.Information, new EventId(),null,"Finding the nearest ocean to" + location.Name, null); 
-            //using the existing logger to record the event ( in this case posting the nam
-            string NearestWater = await _service.GetNearestBodyOfWater(location);
-            JsonSerializer.Serialize(NearestWater);
-            CloseWaterLoaction[] ClosestWater = JsonSerializer.Deserialize<CloseWaterLoaction[]>(NearestWater);
-            return $"The nearest body of water to {location.Name} is {ClosestWater[0].display_name}";
+            try
+            {
+                _logger.Log(LogLevel.Information, new EventId(), null, "Finding the nearest body of water to " + location.Name, null);
+                //using the existing logger to record the event ( in this case posting the nam
+                string NearestWater = await _service.GetNearestBodyOfWater(location);
+                JsonSerializer.Serialize(NearestWater);
+                CloseWaterLoaction[] ClosestWater = JsonSerializer.Deserialize<CloseWaterLoaction[]>(NearestWater);
+                return $"The nearest body of water to {location.Name} is {ClosestWater[0].display_name}";
 
-   
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception("Result not Found");
+            }
+
         }
 
     }

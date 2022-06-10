@@ -16,7 +16,8 @@
         {
 
             string url = $"https://nominatim.openstreetmap.org/search.php?q=water%20near%20{location.Name}%20Australia&polygon_geojson=1&format=jsonv2";
-           HttpResponseMessage y = await _httpClient.GetAsync(url);
+        
+            HttpResponseMessage y = await _httpClient.GetAsync(url);
 
             return await y.Content.ReadAsStringAsync();
         }
